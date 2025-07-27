@@ -7,8 +7,7 @@ You can listen to a [sample here](https://s3.amazonaws.com/lucasnewman.datasets/
 
 See the [Python repository](https://github.com/lucasnewman/f5-tts-mlx) for additional details on the model architecture.
 
-This repository is based on the original Pytorch implementation available [here](https://github.com/SWivid/F5-TTS).
-
+This repository is based on the original [Pytorch implementation of F5-TTS](https://github.com/SWivid/F5-TTS).
 
 ## Installation
 
@@ -16,13 +15,15 @@ The `F5TTS` Swift package can be built and run from Xcode or SwiftPM.
 
 A pretrained model is available [on Huggingface](https://hf.co/lucasnewman/f5-tts-mlx).
 
-
 ## Usage
 
 ```swift
 import F5TTS
 
 let f5tts = try await F5TTS.fromPretrained(repoId: "lucasnewman/f5-tts-mlx")
+
+// Or, with a custom model name:
+// let f5tts = try await F5TTS.fromPretrained(repoId: "lucasnewman/f5-tts-mlx", modelName: "model_v1.safetensors")
 
 let generatedAudio = try await f5tts.generate(text: "The quick brown fox jumped over the lazy dog.")
 ```

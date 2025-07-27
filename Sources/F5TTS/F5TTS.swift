@@ -298,15 +298,15 @@ public class F5TTS: Module {
 // MARK: - Pretrained Models
 
 public extension F5TTS {
-    static func fromPretrained(repoId: String, downloadProgress: ((Progress) -> Void)? = nil) async throws -> F5TTS {
+    static func fromPretrained(repoId: String, modelName: String = "model.safetensors", downloadProgress: ((Progress) -> Void)? = nil) async throws -> F5TTS {
         let modelDirectoryURL = try await Hub.snapshot(from: repoId, matching: ["*.safetensors", "*.txt"]) { progress in
             downloadProgress?(progress)
         }
-        return try self.fromPretrained(modelDirectoryURL: modelDirectoryURL)
+        return try self.fromPretrained(modelDirectoryURL: modelDirectoryURL, modelName: modelName)
     }
 
-    static func fromPretrained(modelDirectoryURL: URL) throws -> F5TTS {
-        let modelURL = modelDirectoryURL.appendingPathComponent("model.safetensors")
+    static func fromPretrained(modelDirectoryURL: URL, modelName: String = "model.safetensors") throws -> F5TTS {
+        let modelURL = modelDirectoryURL.appendingPathComponent(modelName)
         let modelWeights = try loadArrays(url: modelURL)
 
         // mel spec
