@@ -307,7 +307,8 @@ public extension F5TTS {
 
     static func fromPretrained(modelDirectoryURL: URL, modelName: String = "model.safetensors") throws -> F5TTS {
         let modelURL = modelDirectoryURL.appendingPathComponent(modelName)
-        let modelWeights = try loadArrays(url: modelURL)
+        var modelWeights = try loadArrays(url: modelURL)
+        modelWeights.removeValue(forKey: "transformer.text_embed.freqsCis")
 
         // mel spec
 
@@ -372,7 +373,7 @@ public extension F5TTS {
             vocabCharMap: vocab,
             durationPredictor: durationPredictor
         )
-        try f5tts.update(parameters: ModuleParameters.unflattened(modelWeights), verify: .noMissing)
+        try f5tts.update(parameters: ModuleParameters.unflattened(modelWeights), verify: [.all])
 
         return f5tts
     }
