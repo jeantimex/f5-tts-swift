@@ -20,10 +20,6 @@ class TextEmbedding: Module {
             )
         }
 
-        if let freqsCis {
-            self.register(buffer: "freqsCis", array: freqsCis)
-        }
-
         super.init()
     }
 
